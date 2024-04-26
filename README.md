@@ -6,12 +6,12 @@ npm install
 ```
 
 
-Generate dist
+Generate dist/ directory
 ```
 tsc -w
 ```
 
-Boot up server use either of the next commands:
+Boot up server use any of the following commands:
 ```
 nodemone dist/
 or
