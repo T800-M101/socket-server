@@ -29,7 +29,7 @@ export class UsersList {
     //Get list of users
     public getUsersList(): User[] {
         console.log("======== Users list ===========");
-        return this._userslist;
+        return this._userslist.filter(user => user.name !== 'anonymous');
     }
 
     // Get user
