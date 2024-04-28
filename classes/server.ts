@@ -13,44 +13,45 @@ export default class Server {
     public port!: number;
 
     private httpServer: http.Server;
-    public io:socketIO.Server;
+    public io: socketIO.Server;
 
-    private constructor(){
+    private constructor() {
         this.app = express();
         this.port = SERVER_PORT;
 
         this.httpServer = new http.Server(this.app);
-        this.io = new socketIO.Server(this.httpServer, { cors: {
-            origin: "http://localhost:4200",
-            methods: ["GET", "POST"],
-            credentials: true
-        }});
+        this.io = new socketIO.Server(this.httpServer, {
+            cors: {
+                origin: "http://localhost:4200",
+                methods: ["GET", "POST"],
+                credentials: true
+            }
+        });
 
         this.listeSockets();
     }
 
     public static get instance() {
-        return this._instance || ( this._instance = new this() );
+        return this._instance || (this._instance = new this());
     }
 
     private listeSockets() {
-        console.log('listen Connections');
+        console.log('listen Connections...');
         this.io.on('connection', client => {
-            console.log('new clint connected');
-
-
+             // STEP 1: Connect client
+             socket.connectClient(client);
+            // STEP 2: Configure user
+            socket.configureUser(client, this.io);
             // Listen messages
             socket.message(client, this.io);
-            
+
             // Disconnect
             socket.disconnect(client);
-
-
         });
 
     }
 
-    start( callback: any) {
-        this.httpServer.listen(this.port, callback);        
+    start(callback: any) {
+        this.httpServer.listen(this.port, callback);
     }
 }
